@@ -29,7 +29,13 @@ class Profile extends Component {
         let catches = 0;
         let not_out = 0;
         let century = 0;
+        let c = 0;
         let half_century = 0;
+        let highScore = 0;
+        let strikeRate = 0;
+        let four = 0;
+        let six = 0;
+        let balls = 0;
         stat.map((match) => {
             if(match.batting_score.indexOf("DNB")>=0){
                 total_run+=0;
@@ -40,6 +46,9 @@ class Profile extends Component {
                 // console.log(match.batting_score.indexOf("*"));
                 // console.log((match.batting_score.substring(0,match.batting_score.length-1)));
                 total_run+=parseInt(match.batting_score.substring(0,match.batting_score.length-1));
+                if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>highScore){
+                    highScore = parseInt(match.batting_score.substring(0,match.batting_score.length-1));
+                }
                 if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>=50 && parseInt(match.batting_score.substring(0,match.batting_score.length-1))<100){
                     half_century++;
                 }
@@ -50,6 +59,9 @@ class Profile extends Component {
             else{
                 // console.log(parseInt(match.batting_score));
                 total_run+=parseInt(match.batting_score);
+                if(parseInt(match.batting_score)>highScore){
+                    highScore = parseInt(match.batting_score);
+                }
                 if(parseInt(match.batting_score)>=50 && parseInt(match.batting_score)<100){
                     half_century++;
                 }
@@ -58,7 +70,21 @@ class Profile extends Component {
                 }
             }
             if(match.catches!="-")
-            catches+=parseInt(match.catches)
+                catches+=parseInt(match.catches)
+
+            if(match["4s"]!="-")
+                four+=parseInt(match["4s"])
+
+            if(match["6s"]!="-")
+                six+=parseInt(match["6s"])
+
+
+            if(match.balls_faced!="-"){
+                balls+=parseInt(match.balls_faced);
+
+            }
+            strikeRate = total_run/balls * 100;
+            strikeRate = strikeRate.toFixed(2);
 
         });
         console.log(total_run)
@@ -68,7 +94,11 @@ class Profile extends Component {
             not_out,
             catches,
             half_century,
-            century
+            century,
+            highScore,
+            strikeRate,
+            four,
+            six
         })
     }
 
@@ -153,13 +183,13 @@ class Profile extends Component {
                         </div>
                         <div className="box box3">
                             <div className="extra-content">
-                                <div className="no">5</div>
-                                <div className="what">Highest score</div>
+                                <div className="no">{this.state.highScore}</div>
+                                <div className="what">Highest Score</div>
                             </div>
                         </div>
                         <div className="box">
                             <div className="extra-content">
-                                <div className="no">5</div>
+                                <div className="no">{this.state.strikeRate}</div>
                                 <div className="what">Strike rate</div>
                             </div>
                         </div>
@@ -167,13 +197,13 @@ class Profile extends Component {
                     <div className="minibox">
                         <div className="box box1">
                             <div className="extra-content">
-                                <div className="no">1</div>
+                                <div className="no">{this.state.four}</div>
                                 <div className="what">4s</div>
                             </div>
                         </div>
                         <div className="box box2">
                             <div className="extra-content">
-                                <div className="no">4</div>
+                                <div className="no">{this.state.six}</div>
                                 <div className="what">6s</div>
                             </div>
                         </div>
