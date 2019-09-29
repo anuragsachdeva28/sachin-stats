@@ -9,11 +9,67 @@ class Profile extends Component {
     state = {
         name: "",
         email: "",
-        // aT: (this.props.auth.stsTokenManager)?this.props.auth.stsTokenManager.accessToken:""
+        four:null,
+        six:null,
+        strikeRate:null,
+        highScore:null,
+        century:null,
+        half_century:null,
+        catches:null,
+        not_out:null,
+        total_match:null,
+        total_run:null
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        console.log(nextProps,"next")
+        console.log(nextProps.data.data,"next");
+        let stat = nextProps.data.data;
+        let total_match = stat.length;
+        let total_run = 0;
+        let catches = 0;
+        let not_out = 0;
+        let century = 0;
+        let half_century = 0;
+        stat.map((match) => {
+            if(match.batting_score.indexOf("DNB")>=0){
+                total_run+=0;
+            }
+            else if(match.batting_score.indexOf("*")>=0){
+                not_out++;
+                // console.log(match.batting_score);
+                // console.log(match.batting_score.indexOf("*"));
+                // console.log((match.batting_score.substring(0,match.batting_score.length-1)));
+                total_run+=parseInt(match.batting_score.substring(0,match.batting_score.length-1));
+                if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>=50 && parseInt(match.batting_score.substring(0,match.batting_score.length-1))<100){
+                    half_century++;
+                }
+                if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>99){
+                    century++;
+                }
+            }
+            else{
+                // console.log(parseInt(match.batting_score));
+                total_run+=parseInt(match.batting_score);
+                if(parseInt(match.batting_score)>=50 && parseInt(match.batting_score)<100){
+                    half_century++;
+                }
+                if(parseInt(match.batting_score)>99){
+                    century++;
+                }
+            }
+            if(match.catches!="-")
+            catches+=parseInt(match.catches)
+
+        });
+        console.log(total_run)
+        this.setState({
+            total_match,
+            total_run,
+            not_out,
+            catches,
+            half_century,
+            century
+        })
     }
 
     componentWillMount() {
@@ -34,19 +90,6 @@ class Profile extends Component {
                 <div className="profile-aside">
                     <div className="back"></div>
                     <div className="profileCard">
-                        {/*{ !this.state.name && <Fragment>*/}
-                        {/*    <div className="profile-image">*/}
-                        {/*        <img src={""} alt="profile" />*/}
-                        {/*    </div>*/}
-                        {/*    <div className="profile-info">*/}
-                        {/*        <lines className="shine heading"></lines>*/}
-                        {/*        <br />*/}
-                        {/*        <br />*/}
-                        {/*        <lines className="shine num_space"></lines>*/}
-                        {/*        <lines className="shine email_space"></lines>*/}
-                        {/*    </div>*/}
-                        {/*</Fragment> }*/}
-                        {/*{ this.state.name && <Fragment>*/}
                             <div className="profile-image">
                                 <img src={Sachin} alt="profile" />
                             </div>
@@ -69,26 +112,26 @@ class Profile extends Component {
                     <div className="minibox">
                         <div className="box box1">
                             <div className="extra-content">
-                                <div className="no">1</div>
-                                <div className="what">client</div>
+                                <div className="no">{this.state.total_match}</div>
+                                <div className="what">Matches played</div>
                             </div>
                         </div>
                         <div className="box box2">
                             <div className="extra-content">
-                                <div className="no">4</div>
-                                <div className="what">projects</div>
+                                <div className="no">{this.state.total_run}</div>
+                                <div className="what">Runs scored</div>
                             </div>
                         </div>
                         <div className="box box3">
                             <div className="extra-content">
-                                <div className="no">5</div>
-                                <div className="what">task active</div>
+                                <div className="no">{this.state.not_out}</div>
+                                <div className="what">Not outs</div>
                             </div>
                         </div>
                         <div className="box">
                             <div className="extra-content">
-                                <div className="no">5</div>
-                                <div className="what">task active</div>
+                                <div className="no">{this.state.catches}</div>
+                                <div className="what">Catches taken</div>
                             </div>
                         </div>
                     </div>
@@ -98,26 +141,26 @@ class Profile extends Component {
                     <div className="minibox">
                         <div className="box box1">
                             <div className="extra-content">
-                                <div className="no">1</div>
-                                <div className="what">client</div>
+                                <div className="no">{this.state.half_century}</div>
+                                <div className="what">Half centuries</div>
                             </div>
                         </div>
                         <div className="box box2">
                             <div className="extra-content">
-                                <div className="no">4</div>
-                                <div className="what">projects</div>
+                                <div className="no">{this.state.century}</div>
+                                <div className="what">Centuries</div>
                             </div>
                         </div>
                         <div className="box box3">
                             <div className="extra-content">
                                 <div className="no">5</div>
-                                <div className="what">task active</div>
+                                <div className="what">Highest score</div>
                             </div>
                         </div>
                         <div className="box">
                             <div className="extra-content">
                                 <div className="no">5</div>
-                                <div className="what">task active</div>
+                                <div className="what">Strike rate</div>
                             </div>
                         </div>
                     </div>
@@ -125,13 +168,13 @@ class Profile extends Component {
                         <div className="box box1">
                             <div className="extra-content">
                                 <div className="no">1</div>
-                                <div className="what">client</div>
+                                <div className="what">4s</div>
                             </div>
                         </div>
                         <div className="box box2">
                             <div className="extra-content">
                                 <div className="no">4</div>
-                                <div className="what">projects</div>
+                                <div className="what">6s</div>
                             </div>
                         </div>
                     </div>
