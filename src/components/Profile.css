@@ -95,69 +95,29 @@
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-top: 10vh;
     /*background: grey;*/
 }
 .super {
-    background: grey;
+    background: rgba(193,193,209,.14);
+    margin-top: 10vh;
+
 }
 .graph {
     width: 100%;
-    margin: 1% 5%;
+    margin: 5% 5% 2% 5%;
+    border-radius: 8px;
     background: white;
+    box-shadow: 4px 0 16px rgba(0,0,0,.12);
 }
-.numb {
-
-}
-
-.emailid {
-
-}
-
-
-
-
-.shine {
-    background: #f6f7f8;
-    background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
-    background-repeat: no-repeat;
-    background-size: 800px 104px;
-    display: inline-block;
-    position: relative;
-
-    -webkit-animation-duration: 1s;
-    -webkit-animation-fill-mode: forwards;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-name: placeholderShimmer;
-    -webkit-animation-timing-function: linear;
-}
-lines {
-    height: 10px;
-    margin-top: 10px;
-
-}
-@-webkit-keyframes placeholderShimmer {
-    0% {
-        background-position: -468px 0;
-    }
-
-    100% {
-        background-position: 468px 0;
-    }
+.footer {
+    display: flex;
+    justify-content: center;
+    background: white;
+    width: 100%;
+    padding: 1%;
 }
 
-.heading {
-    height:3vh;
-    width: 15vw;
-}
 
-.num_space {
-    width: 10vw;
-}
-
-.email_space {
-    width: 13vw;
-}
 
 .cancel {
     min-width: 128px;
