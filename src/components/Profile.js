@@ -112,12 +112,16 @@ class Profile extends Component {
         let halfCentury = [];
         let centuries = [];
         let highest = [];
+        let ball = [];
+        let strike_Rate = [];
         let count_for_runs =0;
         let count_for_six =0;
         let count_for_four =0;
         let count_for_half =0;
         let count_for_full =0;
         let count_for_high =0;
+        let count_for_balls =0;
+        let count_for_strikeRate =0;
         for (let i=1990;i<=2012;i++){
             count_for_runs=0;
             count_for_six =0;
@@ -125,6 +129,8 @@ class Profile extends Component {
             count_for_half =0;
             count_for_full =0;
             count_for_high =0;
+            count_for_balls =0;
+            count_for_strikeRate =0;
             stat.map((match) => {
                 if(match.date.indexOf("/"+i)>=0){
                     if(match.batting_score.indexOf("DNB")>=0){
@@ -132,7 +138,7 @@ class Profile extends Component {
                     }
                     else if(match.batting_score.indexOf("*")>=0){
                         count_for_runs+=parseInt(match.batting_score.substring(0,match.batting_score.length-1));
-                        if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>highScore){
+                        if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>count_for_high){
                             count_for_high = parseInt(match.batting_score.substring(0,match.batting_score.length-1));
                         }
                         if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>=50 && parseInt(match.batting_score.substring(0,match.batting_score.length-1))<100){
@@ -144,7 +150,7 @@ class Profile extends Component {
                     }
                     else{
                         count_for_runs+=parseInt(match.batting_score);
-                        if(parseInt(match.batting_score)>highScore){
+                        if(parseInt(match.batting_score)>count_for_high){
                             count_for_high = parseInt(match.batting_score);
                         }
                         if(parseInt(match.batting_score)>=50 && parseInt(match.batting_score)<100){
@@ -160,6 +166,12 @@ class Profile extends Component {
 
                     if(match["6s"]!="-")
                         count_for_six+=parseInt(match["6s"])
+
+                    if(match.balls_faced!="-")
+                        count_for_balls+=parseInt(match.balls_faced);
+
+                    count_for_strikeRate = count_for_runs/count_for_balls * 100;
+                    count_for_strikeRate = count_for_strikeRate.toFixed(2);
                 }
             })
             runs.push(count_for_runs);
@@ -168,6 +180,8 @@ class Profile extends Component {
             highest.push(count_for_high);
             halfCentury.push(count_for_half);
             centuries.push(count_for_full);
+            ball.push(count_for_balls);
+            strike_Rate.push(count_for_strikeRate);
         }
         console.log(runs);
         this.setState({
@@ -176,7 +190,9 @@ class Profile extends Component {
             sixes,
             highest,
             centuries,
-            halfCentury
+            halfCentury,
+            ball,
+            strike_Rate
         })
     }
 
@@ -290,7 +306,7 @@ class Profile extends Component {
                         <div className="graphs">
                             <div className="graph">
                                 <h1>Batting Highlights</h1>
-                                <Charts/>
+                                <Charts a={this.state.strike_Rate} b={this.state.highest} c={this.state.ball}/>
                             </div>
                         </div>
                         <div className="graphs">
@@ -312,6 +328,9 @@ class Profile extends Component {
                                 <h1>Centuries and Half Centuries</h1>
                                 <MixedCharts y_a={this.state.halfCentury} y_b={this.state.centuries} type={"b"}/>
                             </div>
+                        </div>
+                        <div className={"footer"}>
+                            Made by Anurag Sachdeva!!!
                         </div>
                     </div>
 

@@ -44,7 +44,7 @@ class BarCharts extends Component {
     render() {
         return (
             <div className="temp">
-                <Chart options={this.state.options} series={this.state.series} type="bar" width="100%" height="300" />
+                <Chart options={this.state.options} series={this.state.series} type="bar" width="100%" height="400" />
             </div>
         );
     }

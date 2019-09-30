@@ -90,7 +90,7 @@ class MixedCharts extends Component {
 
         return (
             <div className="temp">
-                <Chart options={this.state.optionsMixedChart} series={this.state.seriesMixedChart} type="line" width="100%" height="300" />
+                <Chart options={this.state.optionsMixedChart} series={this.state.seriesMixedChart} type="line" width="100%" height="400" />
             </div>
         );
     }
