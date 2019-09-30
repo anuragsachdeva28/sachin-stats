@@ -4,6 +4,10 @@ import {Button} from "react-bootstrap";
 import Sachin from '../images/sach.jpg';
 import DataParser from "./DataParser";
 import {connect} from "react-redux";
+import Charts from './Chart/Chart';
+import MixedCharts from './Chart/MixedCharts';
+import BarCharts from './Chart/BarCharts';
+
 
 class Profile extends Component {
     state = {
@@ -18,7 +22,8 @@ class Profile extends Component {
         catches:null,
         not_out:null,
         total_match:null,
-        total_run:null
+        total_run:null,
+
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
@@ -99,6 +104,79 @@ class Profile extends Component {
             strikeRate,
             four,
             six
+        });
+
+        let runs = [];
+        let fours = [];
+        let sixes = [];
+        let halfCentury = [];
+        let centuries = [];
+        let highest = [];
+        let count_for_runs =0;
+        let count_for_six =0;
+        let count_for_four =0;
+        let count_for_half =0;
+        let count_for_full =0;
+        let count_for_high =0;
+        for (let i=1990;i<=2012;i++){
+            count_for_runs=0;
+            count_for_six =0;
+            count_for_four =0;
+            count_for_half =0;
+            count_for_full =0;
+            count_for_high =0;
+            stat.map((match) => {
+                if(match.date.indexOf("/"+i)>=0){
+                    if(match.batting_score.indexOf("DNB")>=0){
+                        count_for_runs+=0;
+                    }
+                    else if(match.batting_score.indexOf("*")>=0){
+                        count_for_runs+=parseInt(match.batting_score.substring(0,match.batting_score.length-1));
+                        if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>highScore){
+                            count_for_high = parseInt(match.batting_score.substring(0,match.batting_score.length-1));
+                        }
+                        if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>=50 && parseInt(match.batting_score.substring(0,match.batting_score.length-1))<100){
+                            count_for_half++;
+                        }
+                        if(parseInt(match.batting_score.substring(0,match.batting_score.length-1))>99){
+                            count_for_full++;
+                        }
+                    }
+                    else{
+                        count_for_runs+=parseInt(match.batting_score);
+                        if(parseInt(match.batting_score)>highScore){
+                            count_for_high = parseInt(match.batting_score);
+                        }
+                        if(parseInt(match.batting_score)>=50 && parseInt(match.batting_score)<100){
+                            count_for_half++;
+                        }
+                        if(parseInt(match.batting_score)>99){
+                            count_for_full++;
+                        }
+                    }
+
+                    if(match["4s"]!="-")
+                        count_for_four+=parseInt(match["4s"])
+
+                    if(match["6s"]!="-")
+                        count_for_six+=parseInt(match["6s"])
+                }
+            })
+            runs.push(count_for_runs);
+            fours.push(count_for_four);
+            sixes.push(count_for_six);
+            highest.push(count_for_high);
+            halfCentury.push(count_for_half);
+            centuries.push(count_for_full);
+        }
+        console.log(runs);
+        this.setState({
+            runs,
+            fours,
+            sixes,
+            highest,
+            centuries,
+            halfCentury
         })
     }
 
@@ -208,13 +286,35 @@ class Profile extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="log_out">
+                    <div className={"super"}>
+                        <div className="graphs">
+                            <div className="graph">
+                                <h1>Batting Highlights</h1>
+                                <Charts/>
+                            </div>
+                        </div>
+                        <div className="graphs">
+                            <div className="graph">
+                                <h1>Total runs scored</h1>
+                                <BarCharts y={this.state.runs}/>
+                            </div>
+                        </div>
 
-                            <Button variant="secondary" size="sm" type="submit" className={`cancel`}>
-                                LOG OUT
-                            </Button>
+                        <div className="graphs">
+                            <div className="graph">
+                                <h1>Boundaries</h1>
+                                <MixedCharts y_a={this.state.fours} y_b={this.state.sixes} type={"a"}/>
+                            </div>
+                        </div>
 
+                        <div className="graphs">
+                            <div className="graph">
+                                <h1>Centuries and Half Centuries</h1>
+                                <MixedCharts y_a={this.state.halfCentury} y_b={this.state.centuries} type={"b"}/>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
 
 
