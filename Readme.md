@@ -1,4 +1,4 @@
-##sachin-stats
+## sachin-stats
 
 This Project is part of a task given to showcase Sachin Tendulkar as the best cricketer of all Time. The statistics in the this project clearly shows us, why he is considered to be the greatest cricketer of all Time.
 
