@@ -1,6 +1,7 @@
 {
   "name": "sachin-stats",
   "version": "0.1.0",
+  "author": "Anurag Sachdeva",
   "private": true,
   "dependencies": {
     "apexcharts": "^3.8.6",
@@ -34,5 +35,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "1.18.2"
   }
 }
