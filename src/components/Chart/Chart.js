@@ -11,13 +11,44 @@ class Charts extends Component {
         this.state = {
             optionsMixedChart: {
                 chart: {
-                    id: 'basic-bar'
+                    id: 'basic-bar',
+                    stacked: true,
+                    toolbar: {
+                        show: false
+                    }
                 },
                 stroke: {
                     width: [5, 5, 5],
                 },
                 xaxis: {
-                    categories: [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012]
+                    categories: [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012],
+                    labels: {
+                        show: true,
+                        rotate: -45,
+                        rotateAlways: false,
+                        hideOverlappingLabels: true,
+                        trim: true,
+                        minHeight: undefined,
+                        maxHeight: 120,
+                        showDuplicates: false,
+                        style: {
+                            colors: [],
+                            fontSize: '12px',
+                            fontFamily: undefined,
+                            cssClass: 'apexcharts-xaxis-label'
+                        },
+                        offsetX: 0,
+                        offsetY: 0,
+                        format: undefined,
+                        formatter: undefined, // custom formatter function which will override format
+                        datetimeFormatter: {
+                            year: 'yyyy',
+                            month: 'MMM \'yy',
+                            day: 'dd MMM',
+                            hour: 'HH:mm',
+                            minute: 'HH:mm:ss'
+                        }
+                    }
                 },
                 markers: {
                     size: 6,
