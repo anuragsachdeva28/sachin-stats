@@ -49,7 +49,7 @@
 
 .profile-info {
     text-align: center;
-    padding-top: 5vh;
+    padding-top: 7vh;
 }
 
 .profile-info h1{
@@ -134,7 +134,12 @@
     border-radius: 0;
     font-weight: bold;
 }
+@media only screen and (max-width: 700px)  {
+    .profileCard {
+        width: 50vw;
 
+    }
+}
 @media only screen and (max-width: 550px)  {
     .profileCard {
         width: 70vw;
